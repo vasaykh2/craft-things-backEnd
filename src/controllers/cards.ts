@@ -5,7 +5,11 @@ import { RequestCustom } from '../types';
 import ErrorMessage from '../types/ErrorMessage';
 import UnauthorizedError from '../errors/UnauthorizedError';
 
-export const getCards = async (req: Request, res: Response, next: NextFunction) => {
+export const getCards = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const cards = await Card.find({}).populate(['owner', 'likes']);
 
@@ -15,12 +19,14 @@ export const getCards = async (req: Request, res: Response, next: NextFunction) 
   }
 };
 
-export const createCard = async (req: RequestCustom, res: Response, next: NextFunction) => {
+export const createCard = async (
+  req: RequestCustom,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const { name, link } = req.body;
-    const newCard = await Card.create(
-      { name, link, owner: req.user?._id },
-    );
+    const newCard = await Card.create({ name, link, owner: req.user?._id });
 
     return res.status(HttpStatusCode.CREATED).send(newCard);
   } catch (err) {
@@ -28,7 +34,11 @@ export const createCard = async (req: RequestCustom, res: Response, next: NextFu
   }
 };
 
-export const deleteCard = async (req: RequestCustom, res: Response, next: NextFunction) => {
+export const deleteCard = async (
+  req: RequestCustom,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const { cardId } = req.params;
 
@@ -46,7 +56,12 @@ export const deleteCard = async (req: RequestCustom, res: Response, next: NextFu
   }
 };
 
-export const updateCardLikes = async (req: RequestCustom, res: Response, next: NextFunction, updateParam: 'add' | 'pull') => {
+export const updateCardLikes = async (
+  req: RequestCustom,
+  res: Response,
+  next: NextFunction,
+  updateParam: 'add' | 'pull',
+) => {
   try {
     const { cardId } = req.params;
 
@@ -64,6 +79,49 @@ export const updateCardLikes = async (req: RequestCustom, res: Response, next: N
   }
 };
 
-export const likeCard = async (req: RequestCustom, res: Response, next: NextFunction) => updateCardLikes(req, res, next, 'add');
+export const likeCard = async (
+  req: RequestCustom,
+  res: Response,
+  next: NextFunction,
+) => updateCardLikes(req, res, next, 'add');
 
-export const dislikeCard = async (req: RequestCustom, res: Response, next: NextFunction) => updateCardLikes(req, res, next, 'pull');
+export const dislikeCard = async (
+  req: RequestCustom,
+  res: Response,
+  next: NextFunction,
+) => updateCardLikes(req, res, next, 'pull');
+
+export const updateCardCarts = async (
+  req: RequestCustom,
+  res: Response,
+  next: NextFunction,
+  updateParam: 'add' | 'pull',
+) => {
+  try {
+    const { cardId } = req.params;
+
+    const chosenCard = await Card.findByIdAndUpdate(
+      cardId,
+      updateParam === 'add'
+        ? { $addToSet: { carts: req.user?._id } }
+        : { $pull: { carts: req.user?._id } as any },
+      { new: true },
+    ).orFail();
+
+    return res.status(HttpStatusCode.OK).send(chosenCard);
+  } catch (err) {
+    return next(err);
+  }
+};
+
+export const chooseCard = async (
+  req: RequestCustom,
+  res: Response,
+  next: NextFunction,
+) => updateCardCarts(req, res, next, 'add');
+
+export const dischooseCard = async (
+  req: RequestCustom,
+  res: Response,
+  next: NextFunction,
+) => updateCardCarts(req, res, next, 'pull');

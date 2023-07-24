@@ -6,6 +6,7 @@ interface ICard {
   link: string,
   owner: Schema.Types.ObjectId,
   likes: Schema.Types.ObjectId[],
+  carts: Schema.Types.ObjectId[],
   createdAt: Date
 }
 
@@ -31,6 +32,14 @@ const cardSchema = new Schema<ICard>({
     ref: 'user',
   },
   likes: {
+    type: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'user',
+      }],
+    default: [],
+  },
+  carts: {
     type: [
       {
         type: Schema.Types.ObjectId,

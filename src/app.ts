@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import express, { json } from 'express';
+import express, { json, urlencoded } from 'express';
 import mongoose from 'mongoose';
 import { errors } from 'celebrate';
 import router from './routes';
@@ -10,12 +10,15 @@ import rootRouter from './routes/root';
 
 require('dotenv').config();
 
-const { PORT = 3000, DB_CONNECTION = 'mongodb://localhost:27017/mestodb' } = process.env;
+const {
+  PORT = 3000,
+  DB_CONNECTION = 'mongodb://localhost:27017/craftthingsdb',
+} = process.env;
 
 const app = express();
 
 app.use(json());
-app.use(express.urlencoded({ extended: true }));
+app.use(urlencoded({ extended: true }));
 
 app.use(requestLogger);
 

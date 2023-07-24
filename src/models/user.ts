@@ -22,19 +22,19 @@ export interface IUserModel extends Model<IUser> {
 const userSchema = new Schema<IUser>({
   name: {
     type: String,
-    default: 'Жак-Ив Кусто',
+    default: 'Пользователь',
     minlength: 2,
     maxlength: 30,
   },
   about: {
     type: String,
-    default: 'Исследователь',
+    default: 'Гость',
     minlength: 2,
     maxlength: 200,
   },
   avatar: {
     type: String,
-    default: 'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
+    default: 'https://www.pngmart.com/image/479979/png/479978 User Avatar Profile Download PNG Isolated Image',
     validate: {
       validator(link: string) {
         return validLinkRegexp.test(link);
