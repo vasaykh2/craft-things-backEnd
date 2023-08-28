@@ -5,7 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Like, Repository } from 'typeorm';
 import { HashService } from '../hash/hash.service';
 import { User } from './entities/user.entity';
-import { Card } from '../cards/entities/card.entity';
+import { Order } from '../orders/entities/order.entity';
 import { USER_ALREADY_EXIST } from '../utils/constants/users';
 
 @Injectable()
@@ -13,8 +13,8 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
-    @InjectRepository(Card)
-    private readonly cardsRepository: Repository<Card>,
+    @InjectRepository(Order)
+    private readonly ordersRepository: Repository<Order>,
     private readonly hashService: HashService,
   ) {}
 
@@ -41,6 +41,20 @@ export class UsersService {
 
   async findById(id: number): Promise<User> {
     return await this.usersRepository.findOneBy({ id });
+  }
+
+  async findMany(query: string): Promise<User[]> {
+    return await this.usersRepository.find({
+      where: [{ username: Like(`${query}%`) }, { email: Like(`${query}%`) }],
+    });
+  }
+
+  async findUserOrders(id: number): Promise<Order[]> {
+    return this.ordersRepository.find({
+      where: { owner: { id } },
+      relationLoadStrategy: 'join',
+      relations: ['owner'],
+    });
   }
 
   async updateById(id: number, UpdateUserDto: UpdateUserDto): Promise<User> {

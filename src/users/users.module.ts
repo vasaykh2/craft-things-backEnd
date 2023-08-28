@@ -4,12 +4,12 @@ import { UsersController } from './users.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { HashModule } from '../hash/hash.module';
 import { User } from './entities/user.entity';
-import { Card } from '../cards/entities/card.entity';
+import { Order } from '../orders/entities/order.entity';
 
 @Module({
   controllers: [UsersController],
   providers: [UsersService],
-  imports: [TypeOrmModule.forFeature([User, Card]), HashModule],
+  imports: [TypeOrmModule.forFeature([User, Order]), HashModule],
   exports: [UsersService],
 })
 export class UsersModule {}
