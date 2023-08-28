@@ -2,14 +2,10 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-  JoinTable,
 } from 'typeorm';
 import { IsDate, IsString, Min, Max, IsUrl, IsNumber } from 'class-validator';
-
-import { Order } from 'src/orders/entities/order.entity';
 
 @Entity()
 export class Card {
@@ -56,8 +52,4 @@ export class Card {
   })
   @IsNumber()
   ordered: number;
-
-  @ManyToMany(() => Order)
-  @JoinTable()
-  orders: Order[];
 }

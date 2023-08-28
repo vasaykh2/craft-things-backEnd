@@ -3,7 +3,7 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
 import { User } from 'src/users/entities/user.entity';
 import { Card } from 'src/cards/entities/card.entity';
-import { Order } from 'src/orders/entities/Order.entity';
+import { Order } from 'src/orders/entities/order.entity';
 
 export const createPostgresConfig = (
   configService: ConfigService,

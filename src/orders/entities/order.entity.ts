@@ -33,7 +33,16 @@ export class Order {
     default: 0,
   })
   @IsBoolean()
-  ordered: boolean;
+  prepaid: boolean;
+
+  @Column({
+    type: 'numeric',
+    precision: 10,
+    scale: 2,
+    default: 0,
+  })
+  @IsBoolean()
+  delivered: boolean;
 
   @ManyToOne(() => User, (user) => user.orders)
   owner: User;
