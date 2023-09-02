@@ -27,19 +27,13 @@ export class Order {
   updatedAt: Date;
 
   @Column({
-    type: 'numeric',
-    precision: 10,
-    scale: 2,
-    default: 0,
+    default: false,
   })
   @IsBoolean()
   prepaid: boolean;
 
   @Column({
-    type: 'numeric',
-    precision: 10,
-    scale: 2,
-    default: 0,
+    default: false,
   })
   @IsBoolean()
   delivered: boolean;
