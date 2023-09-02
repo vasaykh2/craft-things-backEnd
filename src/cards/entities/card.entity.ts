@@ -4,8 +4,10 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
+  ManyToOne,
 } from 'typeorm';
 import { IsDate, IsString, Min, Max, IsUrl, IsNumber } from 'class-validator';
+import { User } from 'src/users/entities/user.entity';
 
 @Entity()
 export class Card {
@@ -52,4 +54,7 @@ export class Card {
   })
   @IsNumber()
   ordered: number;
+
+  @ManyToOne(() => User, (user) => user.wishes)
+  owner: User;
 }
