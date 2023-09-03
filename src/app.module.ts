@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 //import { AppService } from './app.service';
-//import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './auth/auth.module';
 import { HashModule } from './hash/hash.module';
 import { UsersModule } from './users/users.module';
 import { CardsModule } from './cards/cards.module';
@@ -21,7 +21,7 @@ import { createPostgresConfig } from './utils/configurations/postgres.config';
     UsersModule,
     CardsModule,
     OrdersModule,
-    //AuthModule,
+    AuthModule,
     HashModule,
   ],
   controllers: [AppController],
