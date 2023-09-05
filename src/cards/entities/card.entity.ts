@@ -55,6 +55,6 @@ export class Card {
   @IsNumber()
   ordered: number;
 
-  @ManyToOne(() => User, (user) => user.wishes)
+  @ManyToOne(() => User)
   owner: User;
 }

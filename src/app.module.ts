@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ThrottlerModule } from '@nestjs/throttler';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
@@ -17,6 +18,10 @@ import { createPostgresConfig } from './utils/configurations/postgres.config';
       imports: [ConfigModule],
       useFactory: createPostgresConfig,
       inject: [ConfigService],
+    }),
+    ThrottlerModule.forRoot({
+      ttl: 60,
+      limit: 20,
     }),
     UsersModule,
     CardsModule,
