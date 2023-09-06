@@ -26,7 +26,7 @@ export class CardsController {
 
   @UseGuards(JwtGuard)
   @Post()
-  async createWish(
+  async createCard(
     @Req() { user }: { user: User },
     @Body() dto: CreateCardDto,
   ): Promise<Record<string, never>> {
@@ -35,7 +35,7 @@ export class CardsController {
 
   @Get()
   @UseGuards(JwtGuard)
-  async findAllWishes(): Promise<Card[]> {
+  async findAllCards(): Promise<Card[]> {
     return await this.cardsService.findAll();
   }
 
